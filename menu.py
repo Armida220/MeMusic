@@ -1,35 +1,41 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author:SeekingMini
-# Update:2018-08-27
 
 import os
 from tools.Search import searcher
 from tools.Play import player
 
+PATH = r"C:\Users\l\Music"
 MUSIC_BOX = list([])  # 列表中的元素是player.Player类的实例，用于存储每一首正在播放或未并播放的歌曲
 """
 特别说明：os.system("cls")只在命令行下有效！
 """
 
 
-def display_total_info():
+def display_total_inf
+
+    o():
     os.system("cls")
-    print("--------------------SuMusic--------------------")
+    print("--------------------MeMusic--------------------")
     print("+++++++++++++++++++++++++++++++++++++++++++++++")
     print("                 A.按歌名搜索")
     print("                 B.播放列表")
+    print("                 S.设置")
     print("+++++++++++++++++++++++++++++++++++++++++++++++")
 
     choice = input("请输入字母：")
     if choice == "A" or choice == "a":
         os.system("cls")
-        music_name = input("请输入单曲名称：")
-        music_single_search(music_name)
+        music_name = input("请输入单曲名称（按回车回到主菜单）：")
+        if music_name == "":
+            display_total_info()
+        else:
+            music_single_search(music_name)
     elif choice == "B" or choice == "b":
         play_list()
-    elif choice == "C" or choice == 'c':
-        display_total_info()
+    elif choice == "S" or choice == 's':
+        settings()
     else:
         display_total_info()
 
@@ -80,6 +86,32 @@ def play_list():
 
 def judge_music_mode():
     pass
+
+
+def settings():
+    os.system("cls")
+    print("1.下载路径")
+    print("2.用户登录")
+    _choice = input("请输入序号（输入0返回主菜单）：")
+    if _choice == "1":
+        _path = input(r"请输入下载路径（默认：C:\Users\l\Music）：")
+        if os.path.exists(_path):
+            input("设置成功！")
+            global PATH
+            PATH = _path
+            settings()
+        else:
+            input("★★提示：路径不存在！")
+            pass
+        settings()
+    elif _choice == "2":
+        input("★★提示：功能暂未开放！")
+        settings()
+    elif _choice == "0":
+        display_total_info()
+    else:
+        settings()
+
 
 if __name__ == "__main__":
     display_total_info()

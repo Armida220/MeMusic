@@ -1,7 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author:SeekingMini
-# Update:2018-08-27
 
 # 功能：播放音乐
 
@@ -9,6 +8,7 @@ import os
 import menu
 import minimu
 import requests
+from tools.Download import downloader
 from tools.Search import searcher
 
 
@@ -34,10 +34,6 @@ class Player(object):
 
     def function(self):
         self.display_music_info()
-        '''print("播放列表：")
-        for n in range(len(menu.MUSIC_BOX)):
-            print("{0}.{1} | {2} | {3}".format(n+1,
-                menu.MUSIC_BOX[n].music_info[0], menu.MUSIC_BOX[n].music_info[2], menu.MUSIC_BOX[n].music_info[3]))'''
         choice = input("请输入操作：")
         if choice == "A" or choice == "a":
             for n in range(len(menu.MUSIC_BOX)):
@@ -54,11 +50,14 @@ class Player(object):
         elif choice == 'C' or choice == 'c':
             self.song.stop()
             return self.function()
-        elif choice == 'D' or choice == 'd':
+        elif choice == "D" or choice == "d":
+            downloader.download(self.music_info)
+            return self.function()
+        elif choice == 'E' or choice == 'e':
             menu.play_list()
-        elif choice == "E" or choice == "e":
-            searcher.search(self._[0], self._[1])
         elif choice == "F" or choice == "f":
+            searcher.search(self._[0], self._[1])
+        elif choice == "G" or choice == "g":
             menu.display_total_info()
 
     def display_music_info(self):
@@ -71,7 +70,7 @@ class Player(object):
         print("专辑：{0}".format(self.music_info[3]))
         print(line_total)
         print("++++++++++++")
-        print("A.播放\nB.暂停\nC.停止\nD.播放列表\nE.返回上层\nF.返回主菜单")
+        print("A.播放\nB.暂停\nC.停止\nD.下载\nE.播放列表\nF.返回上层\nG.返回主菜单")
         print("++++++++++++")
 
 

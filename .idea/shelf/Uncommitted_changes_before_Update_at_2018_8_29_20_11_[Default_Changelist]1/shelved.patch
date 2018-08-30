@@ -1,0 +1,424 @@
+Index: tools/Play/player.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># !/usr/bin/env python3\r\n# -*- coding: utf-8 -*-\r\n# Author:SeekingMini\r\n# Update:2018-08-27\r\n\r\n# 功能：播放音乐\r\n\r\nimport os\r\nimport menu\r\nimport minimu\r\nimport requests\r\nfrom tools.Search import searcher\r\n\r\n\r\nURL = r\"https://api.imjad.cn/cloudmusic/?type=song&id={0}&br=320000\"\r\nHEADERS = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}\r\n\r\n\r\nclass Player(object):\r\n    def __init__(self, music_info, name, page):\r\n        os.system(\"cls\")\r\n\r\n        self._ = [name, page]\r\n        self.music_info = music_info\r\n\r\n        self.music_id = self.music_info[1]\r\n        self.url = URL.format(self.music_id)\r\n        self.music_url = self.get_music_url()  # 对音乐的URL进行处理\r\n        self.song = minimu.load(self.music_url)\r\n\r\n    def get_music_url(self):\r\n        music_url = requests.get(self.url, headers=HEADERS).json()['data'][0]['url']\r\n        return music_url\r\n\r\n    def function(self):\r\n        self.display_music_info()\r\n        '''print(\"播放列表：\")\r\n        for n in range(len(menu.MUSIC_BOX)):\r\n            print(\"{0}.{1} | {2} | {3}\".format(n+1,\r\n                menu.MUSIC_BOX[n].music_info[0], menu.MUSIC_BOX[n].music_info[2], menu.MUSIC_BOX[n].music_info[3]))'''\r\n        choice = input(\"请输入操作：\")\r\n        if choice == \"A\" or choice == \"a\":\r\n            for n in range(len(menu.MUSIC_BOX)):\r\n                try:\r\n                    if menu.MUSIC_BOX[n].song.isplaying() and menu.MUSIC_BOX[n].music_info != self.music_info:\r\n                        menu.MUSIC_BOX[n].song.stop()\r\n                except AttributeError:\r\n                    continue\r\n            self.song.play()\r\n            return self.function()\r\n        elif choice == \"B\" or choice == 'b':\r\n            self.song.pause()\r\n            return self.function()\r\n        elif choice == 'C' or choice == 'c':\r\n            self.song.stop()\r\n            return self.function()\r\n        elif choice == 'D' or choice == 'd':\r\n            menu.play_list()\r\n        elif choice == \"E\" or choice == \"e\":\r\n            searcher.search(self._[0], self._[1])\r\n        elif choice == \"F\" or choice == \"f\":\r\n            menu.display_total_info()\r\n\r\n    def display_music_info(self):\r\n        os.system('cls')\r\n        max_length = max(len(self.music_info[0]), len(self.music_info[2]), len(self.music_info[3]))\r\n        line_total = (max_length + 10) * \"-\"\r\n        print(line_total)\r\n        print(\"歌名：{0}\".format(self.music_info[0]))\r\n        print(\"歌手：{0}\".format(self.music_info[2]))\r\n        print(\"专辑：{0}\".format(self.music_info[3]))\r\n        print(line_total)\r\n        print(\"++++++++++++\")\r\n        print(\"A.播放\\nB.暂停\\nC.停止\\nD.播放列表\\nE.返回上层\\nF.返回主菜单\")\r\n        print(\"++++++++++++\")\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    pass\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- tools/Play/player.py	(revision f0964abc45cebeb3bd53f6a98d01f2a01de5d462)
++++ tools/Play/player.py	(date 1535529528374)
+@@ -34,10 +34,6 @@
+ 
+     def function(self):
+         self.display_music_info()
+-        '''print("播放列表：")
+-        for n in range(len(menu.MUSIC_BOX)):
+-            print("{0}.{1} | {2} | {3}".format(n+1,
+-                menu.MUSIC_BOX[n].music_info[0], menu.MUSIC_BOX[n].music_info[2], menu.MUSIC_BOX[n].music_info[3]))'''
+         choice = input("请输入操作：")
+         if choice == "A" or choice == "a":
+             for n in range(len(menu.MUSIC_BOX)):
+Index: tools/Download/downloader.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- tools/Download/downloader.py	(revision f0964abc45cebeb3bd53f6a98d01f2a01de5d462)
++++ tools/Download/downloader.py	(date 1535544693255)
+@@ -1,0 +1,18 @@
++# !/usr/bin/env python3
++# -*- coding: utf-8 -*-
++# Author:SeekingMini
++# Update:2018-08-29
++
++# 功能：下载音乐
++
++import menu
++import requests
++
++
++URL = r"https://v1.hitokoto.cn/nm/url/{0}"
++
++
++def download(music_id):
++
++    pass
++
+Index: menu.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># !/usr/bin/env python3\r\n# -*- coding: utf-8 -*-\r\n# Author:SeekingMini\r\n# Update:2018-08-27\r\n\r\nimport os\r\nfrom tools.Search import searcher\r\nfrom tools.Play import player\r\n\r\nMUSIC_BOX = list([])  # 列表中的元素是player.Player类的实例，用于存储每一首正在播放或未并播放的歌曲\r\n\"\"\"\r\n特别说明：os.system(\"cls\")只在命令行下有效！\r\n\"\"\"\r\n\r\n\r\ndef display_total_info():\r\n    os.system(\"cls\")\r\n    print(\"--------------------SuMusic--------------------\")\r\n    print(\"+++++++++++++++++++++++++++++++++++++++++++++++\")\r\n    print(\"                 A.按歌名搜索\")\r\n    print(\"                 B.播放列表\")\r\n    print(\"+++++++++++++++++++++++++++++++++++++++++++++++\")\r\n\r\n    choice = input(\"请输入字母：\")\r\n    if choice == \"A\" or choice == \"a\":\r\n        os.system(\"cls\")\r\n        music_name = input(\"请输入单曲名称：\")\r\n        music_single_search(music_name)\r\n    elif choice == \"B\" or choice == \"b\":\r\n        play_list()\r\n    elif choice == \"C\" or choice == 'c':\r\n        display_total_info()\r\n    else:\r\n        display_total_info()\r\n\r\n\r\ndef music_single_search(music_name):\r\n    # 对应【A.按歌名搜索】\r\n    searcher.search(music_name, 1)\r\n\r\n\r\ndef music_play(music_info, name, page):\r\n    # 创建一个【player.Player】的示例，并将这个示例添加到【MUSIC_BOX】中\r\n    if len(MUSIC_BOX) == 0:\r\n        MUSIC_BOX.append(player.Player(music_info, name, page))\r\n    else:\r\n        flag = 1\r\n        for each_music in MUSIC_BOX:\r\n            if each_music.music_info == music_info:\r\n                flag -= 1\r\n        if flag:\r\n            MUSIC_BOX.append(player.Player(music_info, name, page))\r\n\r\n    for n in range(len(MUSIC_BOX)):\r\n        if MUSIC_BOX[n].music_info == music_info:\r\n            MUSIC_BOX[n].function()\r\n            break\r\n\r\n\r\ndef play_list():\r\n    no = 1  # 序号\r\n    if len(MUSIC_BOX):\r\n        os.system(\"cls\")\r\n        print(\"--------------------播放列表--------------------\")\r\n        for n in range(len(MUSIC_BOX)):\r\n            print(\"{0}.{1} -- {2} -- {3}\".format(no, MUSIC_BOX[n].music_info[0], MUSIC_BOX[n].music_info[2],\r\n                                                 MUSIC_BOX[n].music_info[3]))\r\n            no += 1\r\n        print(\"------------------------------------------------\")\r\n        _ch_num = (input(\"请输入序号（输入0返回主菜单）：\"))\r\n        if _ch_num == \"0\":\r\n            display_total_info()\r\n        else:\r\n            MUSIC_BOX[int(_ch_num) - 1].function()\r\n    else:\r\n        os.system(\"cls\")\r\n        input(\"★★提示：播放列表为空！\")\r\n        display_total_info()\r\n\r\n\r\ndef judge_music_mode():\r\n    pass\r\n\r\nif __name__ == \"__main__\":\r\n    display_total_info()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- menu.py	(revision f0964abc45cebeb3bd53f6a98d01f2a01de5d462)
++++ menu.py	(date 1535535050742)
+@@ -7,6 +7,7 @@
+ from tools.Search import searcher
+ from tools.Play import player
+ 
++PATH = ""
+ MUSIC_BOX = list([])  # 列表中的元素是player.Player类的实例，用于存储每一首正在播放或未并播放的歌曲
+ """
+ 特别说明：os.system("cls")只在命令行下有效！
+@@ -15,21 +16,26 @@
+ 
+ def display_total_info():
+     os.system("cls")
+-    print("--------------------SuMusic--------------------")
++    print("--------------------MeMusic--------------------")
+     print("+++++++++++++++++++++++++++++++++++++++++++++++")
+     print("                 A.按歌名搜索")
+     print("                 B.播放列表")
++    print("                 W.我的歌单")
++    print("                 S.设置")
+     print("+++++++++++++++++++++++++++++++++++++++++++++++")
+ 
+     choice = input("请输入字母：")
+     if choice == "A" or choice == "a":
+         os.system("cls")
+-        music_name = input("请输入单曲名称：")
+-        music_single_search(music_name)
++        music_name = input("请输入单曲名称（按回车回到主菜单）：")
++        if music_name == "":
++            display_total_info()
++        else:
++            music_single_search(music_name)
+     elif choice == "B" or choice == "b":
+         play_list()
+-    elif choice == "C" or choice == 'c':
+-        display_total_info()
++    elif choice == "S" or choice == 's':
++        settings()
+     else:
+         display_total_info()
+ 
+@@ -81,5 +87,30 @@
+ def judge_music_mode():
+     pass
+ 
++
++def settings():
++    os.system("cls")
++    print("1.下载路径")
++    print("2.用户登录")
++    _choice = input("请输入序号（输入0返回主菜单）：")
++    if _choice == "1":
++        _path = input(r"请输入下载路径（默认：C:\Users\l\Music）：")
++        if os.path.exists(_path):
++            input("设置成功！")
++            PATH = _path + "\\"
++            settings()
++        else:
++            input("★★提示：路径不存在！")
++            _path = r"C:\Users\l\Music\\"
++            PATH = _path
++        settings()
++    elif _choice == "2":
++        _username = input("请输入用户名：")
++    elif _choice == "0":
++        display_total_info()
++    else:
++        settings()
++
++
+ if __name__ == "__main__":
+     display_total_info()
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"b09a905d-e66c-4b0e-9c36-52f7045b204b\" name=\"Default Changelist\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.gitattributes\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.gitignore\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/README.md\" beforeDir=\"false\" />\r\n    </list>\r\n    <option name=\"EXCLUDED_CONVERTED_TO_IGNORED\" value=\"true\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"CoverageDataManager\">\r\n    <SUITE FILE_PATH=\"coverage/SMusic$searcher.coverage\" NAME=\"searcher Coverage Results\" MODIFIED=\"1535294497681\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tools\" />\r\n    <SUITE FILE_PATH=\"coverage/SMusic$test.coverage\" NAME=\"test Coverage Results\" MODIFIED=\"1535351201073\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/SMusic$menu.coverage\" NAME=\"menu Coverage Results\" MODIFIED=\"1535351212220\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/api\" />\r\n    <SUITE FILE_PATH=\"coverage/SMusic$player.coverage\" NAME=\"player Coverage Results\" MODIFIED=\"1535288292293\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tools\" />\r\n    <SUITE FILE_PATH=\"coverage/SMusic$menu__1_.coverage\" NAME=\"menu (1) Coverage Results\" MODIFIED=\"1535365255229\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/SMusic$SMusic.coverage\" NAME=\"SMusic Coverage Results\" MODIFIED=\"1535280897134\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/SuMusic$menu__1_.coverage\" NAME=\"menu (1) Coverage Results\" MODIFIED=\"1535381635924\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"FUSProjectUsageTrigger\">\r\n    <session id=\"54475735\">\r\n      <usages-collector id=\"statistics.lifecycle.project\">\r\n        <counts>\r\n          <entry key=\"project.closed\" value=\"8\" />\r\n          <entry key=\"project.open.time.0\" value=\"3\" />\r\n          <entry key=\"project.open.time.21\" value=\"1\" />\r\n          <entry key=\"project.open.time.25\" value=\"1\" />\r\n          <entry key=\"project.open.time.42\" value=\"1\" />\r\n          <entry key=\"project.open.time.6\" value=\"1\" />\r\n          <entry key=\"project.open.time.8\" value=\"1\" />\r\n          <entry key=\"project.opened\" value=\"8\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.extensions.open\">\r\n        <counts>\r\n          <entry key=\"md\" value=\"1\" />\r\n          <entry key=\"py\" value=\"24\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.types.open\">\r\n        <counts>\r\n          <entry key=\"Markdown\" value=\"1\" />\r\n          <entry key=\"Python\" value=\"24\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.extensions.edit\">\r\n        <counts>\r\n          <entry key=\"md\" value=\"9\" />\r\n          <entry key=\"py\" value=\"13242\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.types.edit\">\r\n        <counts>\r\n          <entry key=\"Markdown\" value=\"9\" />\r\n          <entry key=\"Python\" value=\"13242\" />\r\n        </counts>\r\n      </usages-collector>\r\n    </session>\r\n    <session id=\"296085895\">\r\n      <usages-collector id=\"statistics.lifecycle.project\">\r\n        <counts>\r\n          <entry key=\"project.closed\" value=\"4\" />\r\n          <entry key=\"project.open.time.0\" value=\"2\" />\r\n          <entry key=\"project.open.time.17\" value=\"1\" />\r\n          <entry key=\"project.open.time.19\" value=\"1\" />\r\n          <entry key=\"project.opened\" value=\"4\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.extensions.open\">\r\n        <counts>\r\n          <entry key=\"gitattributes\" value=\"1\" />\r\n          <entry key=\"gitignore\" value=\"1\" />\r\n          <entry key=\"md\" value=\"1\" />\r\n          <entry key=\"py\" value=\"4\" />\r\n          <entry key=\"searcher(1)\" value=\"1\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.types.open\">\r\n        <counts>\r\n          <entry key=\"Markdown\" value=\"1\" />\r\n          <entry key=\"PLAIN_TEXT\" value=\"2\" />\r\n          <entry key=\"Python\" value=\"5\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.extensions.edit\">\r\n        <counts>\r\n          <entry key=\"py\" value=\"522\" />\r\n        </counts>\r\n      </usages-collector>\r\n      <usages-collector id=\"statistics.file.types.edit\">\r\n        <counts>\r\n          <entry key=\"Python\" value=\"522\" />\r\n        </counts>\r\n      </usages-collector>\r\n    </session>\r\n  </component>\r\n  <component name=\"FavoritesManager\">\r\n    <favorites_list name=\"SMusic\" />\r\n  </component>\r\n  <component name=\"FileEditorManager\">\r\n    <leaf SIDE_TABS_SIZE_LIMIT_KEY=\"300\">\r\n      <file pinned=\"false\" current-in-tab=\"true\">\r\n        <entry file=\"file://$PROJECT_DIR$/menu.py\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"442\">\r\n              <caret line=\"81\" column=\"8\" selection-start-line=\"81\" selection-start-column=\"8\" selection-end-line=\"81\" selection-end-column=\"8\" />\r\n              <folding>\r\n                <element signature=\"e#90#99#0\" expanded=\"true\" />\r\n                <marker date=\"1535464385520\" expanded=\"true\" signature=\"2317:2328\" ph=\"...\" />\r\n              </folding>\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/tools/Play/player.py\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"1349\">\r\n              <caret line=\"71\" column=\"25\" selection-start-line=\"71\" selection-start-column=\"25\" selection-end-line=\"71\" selection-end-column=\"25\" />\r\n              <folding>\r\n                <element signature=\"e#101#110#0\" expanded=\"true\" />\r\n              </folding>\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/tools/Search/searcher.py\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"627\">\r\n              <caret line=\"33\" column=\"29\" selection-start-line=\"33\" selection-start-column=\"29\" selection-end-line=\"33\" selection-end-column=\"29\" />\r\n              <folding>\r\n                <element signature=\"e#101#110#0\" expanded=\"true\" />\r\n              </folding>\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n    </leaf>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"UPDATE_CHANGES_POLICY\" value=\"SHELVE\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"MERGE\" />\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"IdeDocumentHistory\">\r\n    <option name=\"CHANGED_PATHS\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/tools/downloader.py\" />\r\n        <option value=\"$PROJECT_DIR$/SMusic.py\" />\r\n        <option value=\"$PROJECT_DIR$/README.md\" />\r\n        <option value=\"$PROJECT_DIR$/tools/searcher.py\" />\r\n        <option value=\"$PROJECT_DIR$/tools/player.py\" />\r\n        <option value=\"$PROJECT_DIR$/main.py\" />\r\n        <option value=\"$PROJECT_DIR$/test.py\" />\r\n        <option value=\"$PROJECT_DIR$/api/menu.py\" />\r\n        <option value=\"$PROJECT_DIR$/tools/Search/searcher(1)\" />\r\n        <option value=\"$PROJECT_DIR$/tools/Search/searcher.py\" />\r\n        <option value=\"$PROJECT_DIR$/menu.py\" />\r\n        <option value=\"$PROJECT_DIR$/tools/Play/player.py\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"JsBuildToolGruntFileManager\" detection-done=\"true\" sorting=\"DEFINITION_ORDER\" />\r\n  <component name=\"JsBuildToolPackageJson\" detection-done=\"true\" sorting=\"DEFINITION_ORDER\" />\r\n  <component name=\"JsFlowSettings\">\r\n    <service-enabled>true</service-enabled>\r\n    <exe-path />\r\n    <other-services-enabled>true</other-services-enabled>\r\n    <auto-save>true</auto-save>\r\n  </component>\r\n  <component name=\"JsGulpfileManager\">\r\n    <detection-done>true</detection-done>\r\n    <sorting>DEFINITION_ORDER</sorting>\r\n  </component>\r\n  <component name=\"ProjectFrameBounds\" extendedState=\"6\">\r\n    <option name=\"x\" value=\"1170\" />\r\n    <option name=\"width\" value=\"1140\" />\r\n    <option name=\"height\" value=\"1040\" />\r\n  </component>\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectView\">\r\n    <navigator proportions=\"\" version=\"1\">\r\n      <foldersAlwaysOnTop value=\"true\" />\r\n    </navigator>\r\n    <panes>\r\n      <pane id=\"Scope\" />\r\n      <pane id=\"ProjectPane\">\r\n        <subPane>\r\n          <expand>\r\n            <path>\r\n              <item name=\"SuMusic\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n              <item name=\"SuMusic\" type=\"462c0819:PsiDirectoryNode\" />\r\n            </path>\r\n            <path>\r\n              <item name=\"SuMusic\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n              <item name=\"SuMusic\" type=\"462c0819:PsiDirectoryNode\" />\r\n              <item name=\"tools\" type=\"462c0819:PsiDirectoryNode\" />\r\n            </path>\r\n          </expand>\r\n          <select />\r\n        </subPane>\r\n      </pane>\r\n    </panes>\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"SearchEverywhereHistoryKey\" value=\"&#9;null&#9;null\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n    <property name=\"nodejs_interpreter_path.stuck_in_default_project\" value=\"undefined stuck path\" />\r\n    <property name=\"nodejs_npm_path_reset_for_default_project\" value=\"true\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\" />\r\n  </component>\r\n  <component name=\"PyConsoleOptionsProvider\">\r\n    <option name=\"myPythonConsoleState\">\r\n      <console-settings is-module-sdk=\"true\">\r\n        <option name=\"myUseModuleSdk\" value=\"true\" />\r\n      </console-settings>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"ruleStates\">\r\n      <list>\r\n        <RuleState>\r\n          <option name=\"name\" value=\"ConfigurationTypeDashboardGroupingRule\" />\r\n        </RuleState>\r\n        <RuleState>\r\n          <option name=\"name\" value=\"StatusDashboardGroupingRule\" />\r\n        </RuleState>\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Python.menu (1)\">\r\n    <configuration name=\"SMusic\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\">\r\n      <module name=\"SMusic\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/SMusic.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"menu (1)\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\">\r\n      <module name=\"SMusic\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/menu.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"menu\" type=\"PythonConfigurationType\" factoryName=\"Python\">\r\n      <module name=\"SMusic\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/api\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/api/menu.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"player\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\">\r\n      <module name=\"SMusic\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/tools\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tools/player.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"searcher\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\">\r\n      <module name=\"SMusic\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/tools\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tools/searcher.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"test\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\">\r\n      <module name=\"SMusic\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/test.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Python.menu\" />\r\n      <item itemvalue=\"Python.searcher\" />\r\n      <item itemvalue=\"Python.player\" />\r\n      <item itemvalue=\"Python.SMusic\" />\r\n      <item itemvalue=\"Python.test\" />\r\n      <item itemvalue=\"Python.menu (1)\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.menu (1)\" />\r\n        <item itemvalue=\"Python.test\" />\r\n        <item itemvalue=\"Python.searcher\" />\r\n        <item itemvalue=\"Python.player\" />\r\n        <item itemvalue=\"Python.SMusic\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"b09a905d-e66c-4b0e-9c36-52f7045b204b\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1535163870971</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1535163870971</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TodoView\">\r\n    <todo-panel id=\"selected-file\">\r\n      <is-autoscroll-to-source value=\"true\" />\r\n    </todo-panel>\r\n    <todo-panel id=\"all\">\r\n      <are-packages-shown value=\"true\" />\r\n      <is-autoscroll-to-source value=\"true\" />\r\n    </todo-panel>\r\n  </component>\r\n  <component name=\"ToolWindowManager\">\r\n    <frame x=\"-7\" y=\"-7\" width=\"1550\" height=\"838\" extended-state=\"6\" />\r\n    <layout>\r\n      <window_info active=\"true\" content_ui=\"combo\" id=\"Project\" order=\"0\" visible=\"true\" weight=\"0.1494638\" />\r\n      <window_info id=\"Structure\" order=\"1\" side_tool=\"true\" weight=\"0.25\" />\r\n      <window_info anchor=\"bottom\" id=\"Message\" order=\"0\" />\r\n      <window_info anchor=\"bottom\" id=\"Find\" order=\"1\" />\r\n      <window_info anchor=\"bottom\" id=\"Run\" order=\"2\" sideWeight=\"0.49865952\" weight=\"0.94126284\" />\r\n      <window_info anchor=\"bottom\" id=\"Debug\" order=\"3\" weight=\"1.0\" />\r\n      <window_info anchor=\"bottom\" id=\"Cvs\" order=\"4\" weight=\"0.25\" />\r\n      <window_info anchor=\"bottom\" id=\"Inspection\" order=\"5\" weight=\"0.4\" />\r\n      <window_info anchor=\"bottom\" id=\"TODO\" order=\"6\" weight=\"0.32892805\" />\r\n      <window_info anchor=\"bottom\" id=\"Docker\" order=\"7\" show_stripe_button=\"false\" />\r\n      <window_info anchor=\"bottom\" id=\"Favorites\" order=\"8\" weight=\"0.32892805\" />\r\n      <window_info anchor=\"bottom\" id=\"Version Control\" order=\"9\" weight=\"0.32892805\" />\r\n      <window_info anchor=\"bottom\" id=\"Database Changes\" order=\"10\" show_stripe_button=\"false\" />\r\n      <window_info anchor=\"bottom\" id=\"Event Log\" order=\"11\" sideWeight=\"0.5013405\" side_tool=\"true\" weight=\"0.46696034\" />\r\n      <window_info anchor=\"bottom\" id=\"Terminal\" order=\"12\" weight=\"1.0\" />\r\n      <window_info anchor=\"bottom\" id=\"Python Console\" order=\"13\" weight=\"0.5932452\" />\r\n      <window_info anchor=\"right\" id=\"Commander\" internal_type=\"SLIDING\" order=\"0\" type=\"SLIDING\" weight=\"0.4\" />\r\n      <window_info anchor=\"right\" id=\"Ant Build\" order=\"1\" weight=\"0.25\" />\r\n      <window_info anchor=\"right\" content_ui=\"combo\" id=\"Hierarchy\" order=\"2\" weight=\"0.25\" />\r\n      <window_info anchor=\"right\" id=\"SciView\" order=\"3\" />\r\n      <window_info anchor=\"right\" id=\"Database\" order=\"4\" />\r\n    </layout>\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"1\" />\r\n  </component>\r\n  <component name=\"VcsContentAnnotationSettings\">\r\n    <option name=\"myLimit\" value=\"2678400000\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"\" />\r\n  </component>\r\n  <component name=\"editorHistoryManager\">\r\n    <entry file=\"file://E:/Anaconda3/Lib/site-packages/mp3play/windows.py\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"1387\">\r\n          <caret line=\"73\" column=\"33\" lean-forward=\"true\" selection-start-line=\"73\" selection-start-column=\"33\" selection-end-line=\"73\" selection-end-column=\"33\" />\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/tools/downloader.py\" />\r\n    <entry file=\"file://$PROJECT_DIR$/SMusic.py\" />\r\n    <entry file=\"file://$USER_HOME$/.PyCharm2018.2/system/python_stubs/-791851423/builtins.py\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"218\">\r\n          <caret line=\"1170\" column=\"8\" selection-start-line=\"1170\" selection-start-column=\"8\" selection-end-line=\"1170\" selection-end-column=\"8\" />\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/tools/searcher.py\" />\r\n    <entry file=\"file://$PROJECT_DIR$/tools/player.py\" />\r\n    <entry file=\"file://$PROJECT_DIR$/main.py\" />\r\n    <entry file=\"file://$PROJECT_DIR$/api/menu.py\" />\r\n    <entry file=\"file://$PROJECT_DIR$/.gitattributes\" />\r\n    <entry file=\"file://$PROJECT_DIR$/.gitignore\" />\r\n    <entry file=\"file://$PROJECT_DIR$/test.py\" />\r\n    <entry file=\"file://$PROJECT_DIR$/README.md\" />\r\n    <entry file=\"file://$PROJECT_DIR$/tools/Search/searcher(1)\" />\r\n    <entry file=\"file://$PROJECT_DIR$/menu.py\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"442\">\r\n          <caret line=\"81\" column=\"8\" selection-start-line=\"81\" selection-start-column=\"8\" selection-end-line=\"81\" selection-end-column=\"8\" />\r\n          <folding>\r\n            <element signature=\"e#90#99#0\" expanded=\"true\" />\r\n            <marker date=\"1535464385520\" expanded=\"true\" signature=\"2317:2328\" ph=\"...\" />\r\n          </folding>\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/tools/Play/player.py\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"1349\">\r\n          <caret line=\"71\" column=\"25\" selection-start-line=\"71\" selection-start-column=\"25\" selection-end-line=\"71\" selection-end-column=\"25\" />\r\n          <folding>\r\n            <element signature=\"e#101#110#0\" expanded=\"true\" />\r\n          </folding>\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/tools/Search/searcher.py\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"627\">\r\n          <caret line=\"33\" column=\"29\" selection-start-line=\"33\" selection-start-column=\"29\" selection-end-line=\"33\" selection-end-column=\"29\" />\r\n          <folding>\r\n            <element signature=\"e#101#110#0\" expanded=\"true\" />\r\n          </folding>\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n  </component>\r\n  <component name=\"masterDetails\">\r\n    <states>\r\n      <state key=\"ScopeChooserConfigurable.UI\">\r\n        <settings>\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n    </states>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision f0964abc45cebeb3bd53f6a98d01f2a01de5d462)
++++ .idea/workspace.xml	(date 1535544693418)
+@@ -2,9 +2,11 @@
+ <project version="4">
+   <component name="ChangeListManager">
+     <list default="true" id="b09a905d-e66c-4b0e-9c36-52f7045b204b" name="Default Changelist" comment="">
+-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tools/Download/downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Download/downloader.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tools/Play/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Play/player.py" afterDir="false" />
+     </list>
+     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+     <option name="SHOW_DIALOG" value="false" />
+@@ -97,20 +99,69 @@
+         </counts>
+       </usages-collector>
+     </session>
++    <session id="1043105446">
++      <usages-collector id="statistics.lifecycle.project">
++        <counts>
++          <entry key="project.open.time.0" value="1" />
++          <entry key="project.opened" value="1" />
++        </counts>
++      </usages-collector>
++      <usages-collector id="statistics.file.extensions.edit">
++        <counts>
++          <entry key="md" value="352" />
++          <entry key="py" value="672" />
++        </counts>
++      </usages-collector>
++      <usages-collector id="statistics.file.types.edit">
++        <counts>
++          <entry key="Markdown" value="352" />
++          <entry key="Python" value="672" />
++        </counts>
++      </usages-collector>
++      <usages-collector id="statistics.file.extensions.open">
++        <counts>
++          <entry key="LICENSE" value="1" />
++          <entry key="gitattributes" value="1" />
++          <entry key="gitignore" value="1" />
++          <entry key="md" value="2" />
++          <entry key="py" value="1" />
++        </counts>
++      </usages-collector>
++      <usages-collector id="statistics.file.types.open">
++        <counts>
++          <entry key="Markdown" value="2" />
++          <entry key="PLAIN_TEXT" value="3" />
++          <entry key="Python" value="1" />
++        </counts>
++      </usages-collector>
++    </session>
+   </component>
+   <component name="FavoritesManager">
+     <favorites_list name="SMusic" />
+   </component>
+   <component name="FileEditorManager">
+     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+-      <file pinned="false" current-in-tab="true">
++      <file pinned="false" current-in-tab="false">
+         <entry file="file://$PROJECT_DIR$/menu.py">
+           <provider selected="true" editor-type-id="text-editor">
+-            <state relative-caret-position="442">
+-              <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
++            <state relative-caret-position="289">
++              <caret line="104" column="24" lean-forward="true" selection-start-line="104" selection-start-column="24" selection-end-line="104" selection-end-column="24" />
+               <folding>
+                 <element signature="e#90#99#0" expanded="true" />
+-                <marker date="1535464385520" expanded="true" signature="2317:2328" ph="..." />
++                <marker date="1535535050742" expanded="true" signature="2479:3083" ph="..." />
++                <marker date="1535535050742" expanded="true" signature="2567:3083" ph="..." />
++              </folding>
++            </state>
++          </provider>
++        </entry>
++      </file>
++      <file pinned="false" current-in-tab="true">
++        <entry file="file://$PROJECT_DIR$/tools/Download/downloader.py">
++          <provider selected="true" editor-type-id="text-editor">
++            <state relative-caret-position="133">
++              <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
++              <folding>
++                <marker date="1535544693255" expanded="true" signature="200:205" ph="..." />
+               </folding>
+             </state>
+           </provider>
+@@ -119,8 +170,8 @@
+       <file pinned="false" current-in-tab="false">
+         <entry file="file://$PROJECT_DIR$/tools/Play/player.py">
+           <provider selected="true" editor-type-id="text-editor">
+-            <state relative-caret-position="1349">
+-              <caret line="71" column="25" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
++            <state>
++              <caret selection-end-line="5" selection-end-column="9" />
+               <folding>
+                 <element signature="e#101#110#0" expanded="true" />
+               </folding>
+@@ -131,7 +182,7 @@
+       <file pinned="false" current-in-tab="false">
+         <entry file="file://$PROJECT_DIR$/tools/Search/searcher.py">
+           <provider selected="true" editor-type-id="text-editor">
+-            <state relative-caret-position="627">
++            <state relative-caret-position="137">
+               <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+               <folding>
+                 <element signature="e#101#110#0" expanded="true" />
+@@ -140,6 +191,18 @@
+           </provider>
+         </entry>
+       </file>
++      <file pinned="false" current-in-tab="false">
++        <entry file="file://$PROJECT_DIR$/README.md">
++          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
++            <state split_layout="SPLIT">
++              <first_editor relative-caret-position="209">
++                <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
++              </first_editor>
++              <second_editor />
++            </state>
++          </provider>
++        </entry>
++      </file>
+     </leaf>
+   </component>
+   <component name="FileTemplateManagerImpl">
+@@ -159,7 +222,6 @@
+       <list>
+         <option value="$PROJECT_DIR$/tools/downloader.py" />
+         <option value="$PROJECT_DIR$/SMusic.py" />
+-        <option value="$PROJECT_DIR$/README.md" />
+         <option value="$PROJECT_DIR$/tools/searcher.py" />
+         <option value="$PROJECT_DIR$/tools/player.py" />
+         <option value="$PROJECT_DIR$/main.py" />
+@@ -167,8 +229,10 @@
+         <option value="$PROJECT_DIR$/api/menu.py" />
+         <option value="$PROJECT_DIR$/tools/Search/searcher(1)" />
+         <option value="$PROJECT_DIR$/tools/Search/searcher.py" />
++        <option value="$PROJECT_DIR$/tools/Play/player.py" />
++        <option value="$PROJECT_DIR$/README.md" />
+         <option value="$PROJECT_DIR$/menu.py" />
+-        <option value="$PROJECT_DIR$/tools/Play/player.py" />
++        <option value="$PROJECT_DIR$/tools/Download/downloader.py" />
+       </list>
+     </option>
+   </component>
+@@ -195,23 +259,35 @@
+       <foldersAlwaysOnTop value="true" />
+     </navigator>
+     <panes>
+-      <pane id="Scope" />
+       <pane id="ProjectPane">
+         <subPane>
+           <expand>
+             <path>
+-              <item name="SuMusic" type="b2602c69:ProjectViewProjectNode" />
+-              <item name="SuMusic" type="462c0819:PsiDirectoryNode" />
++              <item name="MeMusic" type="b2602c69:ProjectViewProjectNode" />
++              <item name="MeMusic" type="462c0819:PsiDirectoryNode" />
++            </path>
++            <path>
++              <item name="MeMusic" type="b2602c69:ProjectViewProjectNode" />
++              <item name="MeMusic" type="462c0819:PsiDirectoryNode" />
++              <item name="tools" type="462c0819:PsiDirectoryNode" />
++            </path>
++            <path>
++              <item name="MeMusic" type="b2602c69:ProjectViewProjectNode" />
++              <item name="MeMusic" type="462c0819:PsiDirectoryNode" />
++              <item name="tools" type="462c0819:PsiDirectoryNode" />
++              <item name="Download" type="462c0819:PsiDirectoryNode" />
+             </path>
+             <path>
+-              <item name="SuMusic" type="b2602c69:ProjectViewProjectNode" />
+-              <item name="SuMusic" type="462c0819:PsiDirectoryNode" />
++              <item name="MeMusic" type="b2602c69:ProjectViewProjectNode" />
++              <item name="MeMusic" type="462c0819:PsiDirectoryNode" />
+               <item name="tools" type="462c0819:PsiDirectoryNode" />
++              <item name="Play" type="462c0819:PsiDirectoryNode" />
+             </path>
+           </expand>
+           <select />
+         </subPane>
+       </pane>
++      <pane id="Scope" />
+     </panes>
+   </component>
+   <component name="PropertiesComponent">
+@@ -417,7 +493,7 @@
+   <component name="ToolWindowManager">
+     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+     <layout>
+-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1494638" />
++      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15147454" />
+       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+       <window_info anchor="bottom" id="Message" order="0" />
+       <window_info anchor="bottom" id="Find" order="1" />
+@@ -431,7 +507,7 @@
+       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32892805" />
+       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5013405" side_tool="true" weight="0.46696034" />
+-      <window_info anchor="bottom" id="Terminal" order="12" weight="1.0" />
++      <window_info anchor="bottom" id="Terminal" order="12" weight="0.53744495" />
+       <window_info anchor="bottom" id="Python Console" order="13" weight="0.5932452" />
+       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+@@ -470,26 +546,35 @@
+     <entry file="file://$PROJECT_DIR$/tools/player.py" />
+     <entry file="file://$PROJECT_DIR$/main.py" />
+     <entry file="file://$PROJECT_DIR$/api/menu.py" />
+-    <entry file="file://$PROJECT_DIR$/.gitattributes" />
+-    <entry file="file://$PROJECT_DIR$/.gitignore" />
+     <entry file="file://$PROJECT_DIR$/test.py" />
+-    <entry file="file://$PROJECT_DIR$/README.md" />
+     <entry file="file://$PROJECT_DIR$/tools/Search/searcher(1)" />
+-    <entry file="file://$PROJECT_DIR$/menu.py">
++    <entry file="file://$PROJECT_DIR$/LICENSE">
++      <provider selected="true" editor-type-id="text-editor" />
++    </entry>
++    <entry file="file://$PROJECT_DIR$/.gitignore">
++      <provider selected="true" editor-type-id="text-editor" />
++    </entry>
++    <entry file="file://$PROJECT_DIR$/.gitattributes">
+       <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="442">
+-          <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
+-          <folding>
+-            <element signature="e#90#99#0" expanded="true" />
+-            <marker date="1535464385520" expanded="true" signature="2317:2328" ph="..." />
+-          </folding>
++        <state relative-caret-position="38">
++          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/README.md">
++      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
++        <state split_layout="SPLIT">
++          <first_editor relative-caret-position="209">
++            <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
++          </first_editor>
++          <second_editor />
+         </state>
+       </provider>
+     </entry>
+     <entry file="file://$PROJECT_DIR$/tools/Play/player.py">
+       <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="1349">
+-          <caret line="71" column="25" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
++        <state>
++          <caret selection-end-line="5" selection-end-column="9" />
+           <folding>
+             <element signature="e#101#110#0" expanded="true" />
+           </folding>
+@@ -498,10 +583,32 @@
+     </entry>
+     <entry file="file://$PROJECT_DIR$/tools/Search/searcher.py">
+       <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="627">
++        <state relative-caret-position="137">
+           <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+           <folding>
+             <element signature="e#101#110#0" expanded="true" />
++          </folding>
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/menu.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="289">
++          <caret line="104" column="24" lean-forward="true" selection-start-line="104" selection-start-column="24" selection-end-line="104" selection-end-column="24" />
++          <folding>
++            <element signature="e#90#99#0" expanded="true" />
++            <marker date="1535535050742" expanded="true" signature="2479:3083" ph="..." />
++            <marker date="1535535050742" expanded="true" signature="2567:3083" ph="..." />
++          </folding>
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/tools/Download/downloader.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="133">
++          <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
++          <folding>
++            <marker date="1535544693255" expanded="true" signature="200:205" ph="..." />
+           </folding>
+         </state>
+       </provider>

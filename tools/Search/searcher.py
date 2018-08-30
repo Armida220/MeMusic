@@ -1,7 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author:SeekingMini
-# Update:2018-08-27
 
 # 功能：搜索单曲
 
@@ -62,6 +61,8 @@ def search(name, page):
             menu.display_total_info()
         else:
             search(name, page)
+    except IndexError:
+        search(name, page)
 
 
 if __name__ == "__main__":
