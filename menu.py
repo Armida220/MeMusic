@@ -13,9 +13,7 @@ MUSIC_BOX = list([])  # 列表中的元素是player.Player类的实例，用于�
 """
 
 
-def display_total_inf
-
-    o():
+def display_total_info():
     os.system("cls")
     print("--------------------MeMusic--------------------")
     print("+++++++++++++++++++++++++++++++++++++++++++++++")
