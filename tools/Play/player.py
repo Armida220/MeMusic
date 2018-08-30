@@ -11,7 +11,6 @@ import requests
 from tools.Download import downloader
 from tools.Search import searcher
 
-
 URL = r"https://api.imjad.cn/cloudmusic/?type=song&id={0}&br=320000"
 HEADERS = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
 
@@ -21,12 +20,13 @@ class Player(object):
         os.system("cls")
 
         self._ = [name, page]
-        self.music_info = music_info
+        self.music_info = music_info  # music_info是一个含有4个元素的列表
 
         self.music_id = self.music_info[1]
         self.url = URL.format(self.music_id)
-        self.music_url = self.get_music_url()  # 对音乐的URL进行处理
-        self.song = minimu.load(self.music_url)
+
+        self.music_url = self.get_music_url()  # 对音乐的URL进行处理，使其有效
+        self.song = minimu.load(self.music_url)  # 载入音乐的URL
 
     def get_music_url(self):
         music_url = requests.get(self.url, headers=HEADERS).json()['data'][0]['url']
@@ -34,6 +34,7 @@ class Player(object):
 
     def function(self):
         self.display_music_info()
+
         choice = input("请输入操作：")
         if choice == "A" or choice == "a":
             for n in range(len(menu.MUSIC_BOX)):
@@ -61,6 +62,7 @@ class Player(object):
             menu.display_total_info()
 
     def display_music_info(self):
+        # 进入某一音乐后的菜单
         os.system('cls')
         max_length = max(len(self.music_info[0]), len(self.music_info[2]), len(self.music_info[3]))
         line_total = (max_length + 10) * "-"

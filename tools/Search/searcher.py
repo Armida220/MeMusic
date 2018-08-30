@@ -65,6 +65,3 @@ def search(name, page):
         search(name, page)
 
 
-if __name__ == "__main__":
-    music_name = input("请输入单曲名称：")
-    search(music_name, 1)
