@@ -78,11 +78,28 @@ def play_list():
                                                  MUSIC_BOX[n].music_info[3]))
             no += 1
         print("------------------------------------------------")
-        _ch_num = (input("请输入序号（输入0返回主菜单）："))
-        if _ch_num == "0":
+        _choice = (input("输入（0：返回主菜单 | 序号：进入歌曲 | D：删除歌曲）："))
+        if _choice == "0":
             display_total_info()
+        elif _choice == "D" or _choice == "d":
+            _ch_num = input("输入（序号：删除歌曲 | 0：返回）：")
+            try:
+                if _ch_num == "0":
+                    play_list()
+                else:
+                    del MUSIC_BOX[int(_ch_num)-1]
+                    play_list()
+            except IndexError:
+                play_list()
+            except ValueError:
+                play_list()
         else:
-            MUSIC_BOX[int(_ch_num) - 1].function()
+            try:
+                MUSIC_BOX[int(_choice) - 1].function()
+            except IndexError:
+                play_list()
+            except ValueError:
+                play_list()
     else:
         os.system("cls")
         input("★★提示：播放列表为空！")
