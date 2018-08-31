@@ -1,5 +1,8 @@
+![ico](https://github.com/SeekingMini/MeMusic/blob/master/img/img.ico)<br>
 MeMusic
 =======
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LISENCE)
+![python3.6](https://img.shields.io/badge/python-3.6-green.svg)<br>
 一个简易在线音乐播放器<br>
 数据来源：网易云音乐
 ## 功能

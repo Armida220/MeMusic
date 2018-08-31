@@ -5,9 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/Download/downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Download/downloader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/Play/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Play/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/Search/searcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Search/searcher.py" afterDir="false" />
     </list>
     <ignored path="D:\Project\MeMusic\.idea\shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -107,22 +104,23 @@
     <session id="1043105446">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.30" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="md" value="519" />
-          <entry key="py" value="1920" />
+          <entry key="py" value="2265" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Markdown" value="519" />
-          <entry key="Python" value="1920" />
+          <entry key="Python" value="2265" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -148,14 +146,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="893">
+              <caret line="90" column="31" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
               <folding>
-                <element signature="e#90#99#0" expanded="true" />
-                <marker date="1535637432694" expanded="true" signature="3211:3213" ph="..." />
+                <element signature="e#84#93#0" expanded="true" />
+                <element signature="e#339#1105#0" />
+                <element signature="e#1149#1197#0" />
+                <element signature="e#1244#1833#0" />
+                <element signature="e#2601#2638#0" />
+                <element signature="e#2661#3210#0" />
+                <marker date="1535691155272" expanded="false" signature="3768:3771" ph="..." />
               </folding>
             </state>
           </provider>
@@ -164,11 +167,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tools/Download/downloader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="22" column="33" lean-forward="true" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-              <folding>
-                <element signature="e#101#110#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="380">
+              <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -176,23 +176,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tools/Play/player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
-              <folding>
-                <element signature="e#101#110#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="403">
+              <caret line="77" selection-start-line="77" selection-end-line="77" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tools/Search/searcher.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1178">
-              <caret line="62" column="26" lean-forward="true" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
-              <folding>
-                <element signature="e#101#110#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="228">
+              <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -201,19 +195,10 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="399">
-                <caret line="21" column="8" lean-forward="true" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+              <first_editor relative-caret-position="217">
+                <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
               </first_editor>
               <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -247,11 +232,11 @@
         <option value="D:/exe/HJDict.py" />
         <option value="$PROJECT_DIR$/../HJDict/main/HJDict.py" />
         <option value="$USER_HOME$/Desktop/test.py" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/menu.py" />
         <option value="$PROJECT_DIR$/tools/Download/downloader.py" />
         <option value="$PROJECT_DIR$/tools/Play/player.py" />
         <option value="$PROJECT_DIR$/tools/Search/searcher.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/menu.py" />
       </list>
     </option>
   </component>
@@ -267,7 +252,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1170" />
     <option name="width" value="1140" />
     <option name="height" value="1040" />
@@ -501,7 +486,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12600537" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12734585" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -515,7 +500,7 @@
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32892805" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5013405" side_tool="true" weight="0.46696034" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="1.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" visible="true" weight="0.5829662" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.5932452" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -573,98 +558,68 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-          <folding>
-            <element signature="n#!!doc" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/HJDict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/exe/HJDict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#225#422#0" />
-            <element signature="e#446#1140#0" />
-            <element signature="e#1184#1440#0" />
-            <element signature="e#1494#1793#0" />
-            <element signature="e#1847#2155#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/HJDict.py" />
+    <entry file="file://D:/exe/HJDict.py" />
     <entry file="file://$PROJECT_DIR$/../HJDict/main/HJDict.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
           <caret line="91" column="11" lean-forward="true" selection-start-line="91" selection-start-column="11" selection-end-line="91" selection-end-column="11" />
-          <folding>
-            <element signature="e#112#121#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Desktop/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="418">
+          <caret line="22" selection-start-line="22" selection-end-line="22" selection-end-column="77" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="399">
-            <caret line="21" column="8" lean-forward="true" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+          <first_editor relative-caret-position="217">
+            <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tools/Download/downloader.py">
+    <entry file="file://$PROJECT_DIR$/tools/Search/searcher.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="33" lean-forward="true" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-          <folding>
-            <element signature="e#101#110#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/menu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#90#99#0" expanded="true" />
-            <marker date="1535637432694" expanded="true" signature="3211:3213" ph="..." />
-          </folding>
+        <state relative-caret-position="228">
+          <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tools/Play/player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
-          <folding>
-            <element signature="e#101#110#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="403">
+          <caret line="77" selection-start-line="77" selection-end-line="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tools/Search/searcher.py">
+    <entry file="file://$PROJECT_DIR$/tools/Download/downloader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1178">
-          <caret line="62" column="26" lean-forward="true" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+        <state relative-caret-position="380">
+          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/menu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="90" column="31" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
           <folding>
-            <element signature="e#101#110#0" expanded="true" />
+            <element signature="e#84#93#0" expanded="true" />
+            <element signature="e#339#1105#0" />
+            <element signature="e#1149#1197#0" />
+            <element signature="e#1244#1833#0" />
+            <element signature="e#2601#2638#0" />
+            <element signature="e#2661#3210#0" />
+            <marker date="1535691155272" expanded="false" signature="3768:3771" ph="..." />
           </folding>
         </state>
       </provider>
